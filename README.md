@@ -14,11 +14,12 @@ modification. This library follows the latest Office Open XML (OOXML) specificat
 modern Word document files (.docx).
 
 This project is forked from [wordZero](https://github.com/zerx-lab/wordZero) (MIT License) and translated to English
-for use in Drumkit's codebase for document processing pipelines (currently used to parse contents of word documents).
+for use in Drumkit's codebase for document processing pipelines (currently used to convert word documents to markdown).
 
 ### Core Features
 
 - 🚀 **Complete Document Operations**: Create, read, and modify Word documents
+- 🖨️ **Markdown Conversion**: Convert to and from markdown
 - 🎨 **Rich Style System**: 18 predefined styles with custom style and inheritance support
 - 📝 **Text Formatting**: Full support for fonts, sizes, colors, bold, italic, and more
 - 📐 **Paragraph Format**: Alignment, spacing, indentation, and other paragraph properties
@@ -55,13 +56,53 @@ We recommend using a pinned version installation:
 
 ```bash
 # Install specific version
-go get github.com/drumkitai/go-word@v1.0.0
+go get github.com/drumkitai/go-word@v1.0.1
 
 # Install latest version
 go get github.com/drumkitai/go-word@latest
 ```
 
-## Quick Start
+### Word to Markdown Feature Example
+
+```go
+package main
+
+import (
+    "fmt"
+    "log"
+    "github.com/drumkitai/go-word/pkg/document"
+    "github.com/drumkitai/go-word/pkg/markdown"
+)
+
+func main() {
+    // Create Word to Markdown exporter
+    exporter := markdown.NewExporter(markdown.DefaultExportOptions())
+    
+    // Convert Word document to Markdown file
+    err := exporter.ExportToFile("document.docx", "output.md", nil)
+    if err != nil {
+        log.Fatal(err)
+    }
+    
+    fmt.Println("Word document successfully converted to Markdown!")
+    
+    // Alternative: Export from an already opened document
+    doc, err := document.Open("document.docx")
+    if err != nil {
+        log.Fatal(err)
+    }
+    
+    markdownText, err := exporter.ExportToString(doc, nil)
+    if err != nil {
+        log.Fatal(err)
+    }
+    
+    fmt.Println("Markdown content:")
+    fmt.Println(markdownText)
+}
+```
+
+## Quick Start (Creating a word document)
 
 ```go
 package main

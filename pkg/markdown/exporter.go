@@ -117,14 +117,14 @@ func DefaultExportOptions() *ExportOptions {
 	return &ExportOptions{
 		UseGFMTables:        true,
 		PreserveFootnotes:   true,
-		PreserveLineBreaks:  false,
+		PreserveLineBreaks:  false, // TODO: support preserve line breaks
 		WrapLongLines:       false,
 		MaxLineLength:       80,
 		ExtractImages:       true,
 		ImageNamePattern:    "image_%d.png",
 		ImageRelativePath:   true,
 		PreserveBookmarks:   true,
-		ConvertHyperlinks:   true,
+		ConvertHyperlinks:   true, // TODO: support convert hyperlinks
 		PreserveCodeStyle:   true,
 		DefaultCodeLang:     "",
 		IgnoreUnknownStyles: true,

@@ -14,7 +14,7 @@ import (
 	"strconv"
 )
 
-// ImageFormat 图片格式类型
+// ImageFormat
 type ImageFormat string
 
 const (
@@ -23,7 +23,7 @@ const (
 	ImageFormatGIF  ImageFormat = "gif"
 )
 
-// ImagePosition 图片位置类型
+// ImagePosition
 type ImagePosition string
 
 const (
@@ -32,7 +32,7 @@ const (
 	ImagePositionFloatRight ImagePosition = "floatRight"
 )
 
-// ImageWrapText 文字环绕类型
+// ImageWrapText
 type ImageWrapText string
 
 const (
@@ -42,14 +42,14 @@ const (
 	ImageWrapTopAndBottom ImageWrapText = "topAndBottom"
 )
 
-// ImageSize image size configuration
+// ImageSize
 type ImageSize struct {
 	Width           float64
 	Height          float64
 	KeepAspectRatio bool
 }
 
-// ImageConfig image configuration
+// ImageConfig
 type ImageConfig struct {
 	Size      *ImageSize
 	Position  ImagePosition
@@ -61,7 +61,7 @@ type ImageConfig struct {
 	OffsetY   float64
 }
 
-// ImageInfo image information
+// ImageInfo
 type ImageInfo struct {
 	ID         string
 	RelationID string
@@ -72,14 +72,14 @@ type ImageInfo struct {
 	Config     *ImageConfig
 }
 
-// DrawingElement drawing element containing images
+// DrawingElement
 type DrawingElement struct {
 	XMLName xml.Name       `xml:"w:drawing"`
 	Inline  *InlineDrawing `xml:"wp:inline,omitempty"`
 	Anchor  *AnchorDrawing `xml:"wp:anchor,omitempty"`
 }
 
-// InlineDrawing inline drawing
+// InlineDrawing
 type InlineDrawing struct {
 	XMLName xml.Name        `xml:"wp:inline"`
 	DistT   string          `xml:"distT,attr,omitempty"`
@@ -91,7 +91,7 @@ type InlineDrawing struct {
 	Graphic *DrawingGraphic `xml:"a:graphic"`
 }
 
-// AnchorDrawing 浮动绘图
+// AnchorDrawing
 type AnchorDrawing struct {
 	XMLName           xml.Name            `xml:"wp:anchor"`
 	DistT             string              `xml:"distT,attr,omitempty"`
@@ -119,14 +119,14 @@ type AnchorDrawing struct {
 	Graphic           *DrawingGraphic     `xml:"a:graphic"`
 }
 
-// SimplePosition 简单位置
+// SimplePosition
 type SimplePosition struct {
 	XMLName xml.Name `xml:"wp:simplePos"`
 	X       string   `xml:"x,attr"`
 	Y       string   `xml:"y,attr"`
 }
 
-// HorizontalPosition 水平位置
+// HorizontalPosition
 type HorizontalPosition struct {
 	XMLName      xml.Name   `xml:"wp:positionH"`
 	RelativeFrom string     `xml:"relativeFrom,attr"`
@@ -134,7 +134,7 @@ type HorizontalPosition struct {
 	PosOffset    *PosOffset `xml:"wp:posOffset,omitempty"`
 }
 
-// VerticalPosition 垂直位置
+// VerticalPosition
 type VerticalPosition struct {
 	XMLName      xml.Name   `xml:"wp:positionV"`
 	RelativeFrom string     `xml:"relativeFrom,attr"`
@@ -142,19 +142,19 @@ type VerticalPosition struct {
 	PosOffset    *PosOffset `xml:"wp:posOffset,omitempty"`
 }
 
-// PosAlign 位置对齐
+// PosAlign
 type PosAlign struct {
 	XMLName xml.Name `xml:"wp:align"`
 	Value   string   `xml:",chardata"`
 }
 
-// PosOffset 位置偏移
+// PosOffset
 type PosOffset struct {
 	XMLName xml.Name `xml:"wp:posOffset"`
 	Value   string   `xml:",chardata"`
 }
 
-// EffectExtent 效果范围
+// EffectExtent
 type EffectExtent struct {
 	XMLName xml.Name `xml:"wp:effectExtent"`
 	L       string   `xml:"l,attr,omitempty"`
@@ -163,12 +163,12 @@ type EffectExtent struct {
 	B       string   `xml:"b,attr,omitempty"`
 }
 
-// WrapNone 无环绕
+// WrapNone
 type WrapNone struct {
 	XMLName xml.Name `xml:"wp:wrapNone"`
 }
 
-// WrapSquare 四周环绕
+// WrapSquare
 type WrapSquare struct {
 	XMLName  xml.Name `xml:"wp:wrapSquare"`
 	WrapText string   `xml:"wrapText,attr,omitempty"`
@@ -178,7 +178,7 @@ type WrapSquare struct {
 	DistR    string   `xml:"distR,attr,omitempty"`
 }
 
-// WrapTight 紧密环绕
+// WrapTight
 type WrapTight struct {
 	XMLName     xml.Name     `xml:"wp:wrapTight"`
 	WrapText    string       `xml:"wrapText,attr,omitempty"`
@@ -187,7 +187,7 @@ type WrapTight struct {
 	WrapPolygon *WrapPolygon `xml:"wp:wrapPolygon,omitempty"`
 }
 
-// WrapThrough 穿透环绕
+// WrapThrough
 type WrapThrough struct {
 	XMLName     xml.Name     `xml:"wp:wrapThrough"`
 	WrapText    string       `xml:"wrapText,attr,omitempty"`
@@ -196,7 +196,7 @@ type WrapThrough struct {
 	WrapPolygon *WrapPolygon `xml:"wp:wrapPolygon,omitempty"`
 }
 
-// WrapTopAndBottom 上下环绕
+// WrapTopAndBottom
 type WrapTopAndBottom struct {
 	XMLName      xml.Name      `xml:"wp:wrapTopAndBottom"`
 	DistT        string        `xml:"distT,attr,omitempty"`
@@ -204,34 +204,34 @@ type WrapTopAndBottom struct {
 	EffectExtent *EffectExtent `xml:"wp:effectExtent,omitempty"`
 }
 
-// WrapPolygon 环绕多边形
+// WrapPolygon
 type WrapPolygon struct {
 	XMLName xml.Name        `xml:"wp:wrapPolygon"`
 	Start   *PolygonStart   `xml:"wp:start"`
 	LineTo  []PolygonLineTo `xml:"wp:lineTo"`
 }
 
-// PolygonStart 多边形起点
+// PolygonStart
 type PolygonStart struct {
 	XMLName xml.Name `xml:"wp:start"`
 	X       string   `xml:"x,attr"`
 	Y       string   `xml:"y,attr"`
 }
 
-// PolygonLineTo 多边形线段
+// PolygonLineTo
 type PolygonLineTo struct {
 	XMLName xml.Name `xml:"wp:lineTo"`
 	X       string   `xml:"x,attr"`
 	Y       string   `xml:"y,attr"`
 }
 
-// CNvGraphicFramePr 非可视图形框架属性
+// CNvGraphicFramePr
 type CNvGraphicFramePr struct {
 	XMLName           xml.Name           `xml:"wp:cNvGraphicFramePr"`
 	GraphicFrameLocks *GraphicFrameLocks `xml:"a:graphicFrameLocks,omitempty"`
 }
 
-// GraphicFrameLocks 图形框架锁定
+// GraphicFrameLocks
 type GraphicFrameLocks struct {
 	XMLName        xml.Name `xml:"a:graphicFrameLocks"`
 	Xmlns          string   `xml:"xmlns:a,attr,omitempty"`
@@ -243,14 +243,14 @@ type GraphicFrameLocks struct {
 	NoSelect       string   `xml:"noSelect,attr,omitempty"`
 }
 
-// DrawingExtent 尺寸
+// DrawingExtent
 type DrawingExtent struct {
 	XMLName xml.Name `xml:"wp:extent"`
 	Cx      string   `xml:"cx,attr"`
 	Cy      string   `xml:"cy,attr"`
 }
 
-// DrawingDocPr 文档属性
+// DrawingDocPr
 type DrawingDocPr struct {
 	XMLName xml.Name `xml:"wp:docPr"`
 	ID      string   `xml:"id,attr"`
@@ -259,21 +259,21 @@ type DrawingDocPr struct {
 	Title   string   `xml:"title,attr,omitempty"`
 }
 
-// DrawingGraphic 图形
+// DrawingGraphic
 type DrawingGraphic struct {
 	XMLName     xml.Name     `xml:"a:graphic"`
 	Xmlns       string       `xml:"xmlns:a,attr"`
 	GraphicData *GraphicData `xml:"a:graphicData"`
 }
 
-// GraphicData 图形数据
+// GraphicData
 type GraphicData struct {
 	XMLName xml.Name    `xml:"a:graphicData"`
 	Uri     string      `xml:"uri,attr"`
 	Pic     *PicElement `xml:"pic:pic"`
 }
 
-// PicElement 图片
+// PicElement
 type PicElement struct {
 	XMLName  xml.Name  `xml:"pic:pic"`
 	Xmlns    string    `xml:"xmlns:pic,attr"`
@@ -282,14 +282,14 @@ type PicElement struct {
 	SpPr     *SpPr     `xml:"pic:spPr"`
 }
 
-// NvPicPr 非可视图片属性
+// NvPicPr
 type NvPicPr struct {
 	XMLName  xml.Name  `xml:"pic:nvPicPr"`
 	CNvPr    *CNvPr    `xml:"pic:cNvPr"`
 	CNvPicPr *CNvPicPr `xml:"pic:cNvPicPr"`
 }
 
-// CNvPr 通用非可视属性
+// CNvPr
 type CNvPr struct {
 	XMLName xml.Name `xml:"pic:cNvPr"`
 	ID      string   `xml:"id,attr"`
@@ -298,88 +298,88 @@ type CNvPr struct {
 	Title   string   `xml:"title,attr,omitempty"`
 }
 
-// CNvPicPr 图片特定非可视属性
+// CNvPicPr
 type CNvPicPr struct {
 	XMLName  xml.Name  `xml:"pic:cNvPicPr"`
 	PicLocks *PicLocks `xml:"a:picLocks,omitempty"`
 }
 
-// PicLocks 图片锁定属性
+// PicLocks
 type PicLocks struct {
 	XMLName            xml.Name `xml:"a:picLocks"`
 	NoChangeAspect     string   `xml:"noChangeAspect,attr,omitempty"`
 	NoChangeArrowheads string   `xml:"noChangeArrowheads,attr,omitempty"`
 }
 
-// BlipFill 图片填充
+// BlipFill
 type BlipFill struct {
 	XMLName xml.Name `xml:"pic:blipFill"`
 	Blip    *Blip    `xml:"a:blip"`
 	Stretch *Stretch `xml:"a:stretch"`
 }
 
-// Blip 二进制图片
+// Blip
 type Blip struct {
 	XMLName xml.Name `xml:"a:blip"`
 	Embed   string   `xml:"r:embed,attr"`
 }
 
-// Stretch 拉伸
+// Stretch
 type Stretch struct {
 	XMLName  xml.Name  `xml:"a:stretch"`
 	FillRect *FillRect `xml:"a:fillRect"`
 }
 
-// FillRect 填充矩形
+// FillRect
 type FillRect struct {
 	XMLName xml.Name `xml:"a:fillRect"`
 }
 
-// SpPr 形状属性
+// SpPr
 type SpPr struct {
 	XMLName  xml.Name  `xml:"pic:spPr"`
 	Xfrm     *Xfrm     `xml:"a:xfrm"`
 	PrstGeom *PrstGeom `xml:"a:prstGeom"`
 }
 
-// Xfrm 变换
+// Xfrm
 type Xfrm struct {
 	XMLName xml.Name `xml:"a:xfrm"`
 	Off     *Off     `xml:"a:off,omitempty"`
 	Ext     *Ext     `xml:"a:ext"`
 }
 
-// Off 偏移
+// Off
 type Off struct {
 	XMLName xml.Name `xml:"a:off"`
 	X       string   `xml:"x,attr"`
 	Y       string   `xml:"y,attr"`
 }
 
-// Ext 范围
+// Ext
 type Ext struct {
 	XMLName xml.Name `xml:"a:ext"`
 	Cx      string   `xml:"cx,attr"`
 	Cy      string   `xml:"cy,attr"`
 }
 
-// PrstGeom 预设几何图形
+// PrstGeom
 type PrstGeom struct {
 	XMLName xml.Name `xml:"a:prstGeom"`
 	Prst    string   `xml:"prst,attr"`
 	AvLst   *AvLst   `xml:"a:avLst"`
 }
 
-// AvLst 调整值列表
+// AvLst
 type AvLst struct {
 	XMLName xml.Name `xml:"a:avLst"`
 }
 
 // AddImageFromFile 从文件添加图片到文档
 func (d *Document) AddImageFromFile(filePath string, config *ImageConfig) (*ImageInfo, error) {
-	Debugf("开始添加图片文件: %s", filePath)
+	Debugf("Starting to add image file: %s", filePath)
 
-	// 读取图片文件
+	// read image file
 	imageData, err := os.ReadFile(filePath)
 	if err != nil {
 		Errorf("读取图片文件失败 %s: %v", filePath, err)
@@ -389,29 +389,29 @@ func (d *Document) AddImageFromFile(filePath string, config *ImageConfig) (*Imag
 	// detect image format
 	format, err := detectImageFormat(imageData)
 	if err != nil {
-		Errorf("检测图片格式失败 %s: %v", filePath, err)
-		return nil, fmt.Errorf("检测图片格式失败: %v", err)
+		Errorf("Failed to detect image format %s: %v", filePath, err)
+		return nil, fmt.Errorf("Failed to detect image format: %v", err)
 	}
 
 	// get image dimensions
 	width, height, err := getImageDimensions(imageData, format)
 	if err != nil {
-		Errorf("获取图片尺寸失败 %s: %v", filePath, err)
-		return nil, fmt.Errorf("获取图片尺寸失败: %v", err)
+		Errorf("Failed to get image dimensions %s: %v", filePath, err)
+		return nil, fmt.Errorf("Failed to get image dimensions: %v", err)
 	}
 
 	fileName := filepath.Base(filePath)
-	Infof("成功读取图片: %s (格式: %s, 尺寸: %dx%d, 大小: %d字节)", fileName, format, width, height, len(imageData))
+	Infof("Successfully read image: %s (format: %s, size: %dx%d, size: %d bytes)", fileName, format, width, height, len(imageData))
 	return d.AddImageFromData(imageData, fileName, format, width, height, config)
 }
 
-// generateSafeImageFileName 生成安全的图片文件名
-// 将非ASCII字符的文件名转换为安全的ASCII文件名，以确保Microsoft Word兼容性
+// generateSafeImageFileName
+// convert non-ASCII file names to safe ASCII file names to ensure Microsoft Word compatibility
 func generateSafeImageFileName(imageID int, originalFileName string, format ImageFormat) string {
-	// 获取文件扩展名
+	// get file extension
 	ext := filepath.Ext(originalFileName)
 	if ext == "" {
-		// 如果没有扩展名，根据格式添加
+		// if there is no extension, add it based on the format
 		switch format {
 		case ImageFormatPNG:
 			ext = ".png"
@@ -424,12 +424,12 @@ func generateSafeImageFileName(imageID int, originalFileName string, format Imag
 		}
 	}
 
-	// 使用图片ID生成安全的文件名
+	// generate safe file name using image ID
 	safeFileName := fmt.Sprintf("image%d%s", imageID, ext)
 	return safeFileName
 }
 
-// AddImageFromData 从数据添加图片到文档
+// AddImageFromData
 func (d *Document) AddImageFromData(imageData []byte, fileName string, format ImageFormat, width, height int, config *ImageConfig) (*ImageInfo, error) {
 	if d.documentRelationships == nil {
 		d.documentRelationships = &Relationships{
@@ -438,17 +438,17 @@ func (d *Document) AddImageFromData(imageData []byte, fileName string, format Im
 		}
 	}
 
-	// 使用文档级别的图片ID计数器确保ID唯一性
+	// use document-level image ID counter to ensure ID uniqueness
 	imageID := d.nextImageID
 	d.nextImageID++ // increment counter
 
-	// 生成安全的文件名（避免中文等非ASCII字符导致Word打开错误）
+	// generate safe file name (to avoid errors when opening Word with non-ASCII characters)
 	safeFileName := generateSafeImageFileName(imageID, fileName, format)
 
-	// generate relationship ID，注意：rId1保留给styles.xml，图片从rId2开始
+	// generate relationship ID, note: rId1 reserved for styles.xml, images start from rId2
 	relationID := fmt.Sprintf("rId%d", len(d.documentRelationships.Relationships)+2)
 
-	// add image关系，使用安全文件名
+	// add image relationship, using safe file name
 	d.documentRelationships.Relationships = append(d.documentRelationships.Relationships, Relationship{
 		ID:     relationID,
 		Type:   "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image",

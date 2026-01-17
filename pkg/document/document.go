@@ -2026,13 +2026,13 @@ func (d *Document) parseDocument() error {
 	}
 
 done:
-	Infof("解析完成，共 %d 个元素", len(d.Body.Elements))
+	Infof("Parsing completed, %d elements", len(d.Body.Elements))
 	return nil
 }
 
-// parseDocumentElement 解析文档元素
+// parseDocumentElement
 func (d *Document) parseDocumentElement(decoder *xml.Decoder) error {
-	// 初始化Body
+	// initialize Body
 	d.Body = &Body{
 		Elements: make([]interface{}, 0),
 	}
@@ -2050,7 +2050,6 @@ func (d *Document) parseDocumentElement(decoder *xml.Decoder) error {
 		case xml.StartElement:
 			switch {
 			case t.Name.Local == "body":
-				// 解析文档主体
 				if err := d.parseBodyElement(decoder); err != nil {
 					return err
 				}
@@ -2065,7 +2064,7 @@ func (d *Document) parseDocumentElement(decoder *xml.Decoder) error {
 	return nil
 }
 
-// parseBodyElement 解析文档主体元素
+// parseBodyElement
 func (d *Document) parseBodyElement(decoder *xml.Decoder) error {
 	for {
 		token, err := decoder.Token()
@@ -2095,26 +2094,22 @@ func (d *Document) parseBodyElement(decoder *xml.Decoder) error {
 	return nil
 }
 
-// parseBodySubElement 解析文档主体的子元素
+// parseBodySubElement
 func (d *Document) parseBodySubElement(decoder *xml.Decoder, startElement xml.StartElement) (interface{}, error) {
 	switch startElement.Name.Local {
 	case "p":
-		// 解析段落
 		return d.parseParagraph(decoder, startElement)
 	case "tbl":
-		// 解析表格
 		return d.parseTable(decoder, startElement)
 	case "sectPr":
-		// 解析节属性
 		return d.parseSectionProperties(decoder, startElement)
 	default:
-		// 跳过未知元素
 		Debugf("跳过未知元素: %s", startElement.Name.Local)
 		return nil, d.skipElement(decoder, startElement.Name.Local)
 	}
 }
 
-// parseParagraph 解析段落
+// parseParagraph
 func (d *Document) parseParagraph(decoder *xml.Decoder, startElement xml.StartElement) (*Paragraph, error) {
 	paragraph := &Paragraph{
 		Runs: make([]Run, 0),
@@ -2130,12 +2125,10 @@ func (d *Document) parseParagraph(decoder *xml.Decoder, startElement xml.StartEl
 		case xml.StartElement:
 			switch t.Name.Local {
 			case "pPr":
-				// 解析段落属性
 				if err := d.parseParagraphProperties(decoder, paragraph); err != nil {
 					return nil, err
 				}
 			case "r":
-				// 解析运行
 				run, err := d.parseRun(decoder, t)
 				if err != nil {
 					return nil, err
@@ -2144,7 +2137,6 @@ func (d *Document) parseParagraph(decoder *xml.Decoder, startElement xml.StartEl
 					paragraph.Runs = append(paragraph.Runs, *run)
 				}
 			default:
-				// 跳过其他元素
 				if err := d.skipElement(decoder, t.Name.Local); err != nil {
 					return nil, err
 				}
@@ -2157,7 +2149,7 @@ func (d *Document) parseParagraph(decoder *xml.Decoder, startElement xml.StartEl
 	}
 }
 
-// parseParagraphProperties 解析段落属性
+// parseParagraphProperties
 func (d *Document) parseParagraphProperties(decoder *xml.Decoder, paragraph *Paragraph) error {
 	paragraph.Properties = &ParagraphProperties{}
 
@@ -2171,7 +2163,6 @@ func (d *Document) parseParagraphProperties(decoder *xml.Decoder, paragraph *Par
 		case xml.StartElement:
 			switch t.Name.Local {
 			case "pStyle":
-				// 段落样式
 				val := getAttributeValue(t.Attr, "val")
 				if val != "" {
 					paragraph.Properties.ParagraphStyle = &ParagraphStyle{Val: val}
@@ -2180,7 +2171,6 @@ func (d *Document) parseParagraphProperties(decoder *xml.Decoder, paragraph *Par
 					return err
 				}
 			case "spacing":
-				// 间距
 				spacing := &Spacing{}
 				spacing.Before = getAttributeValue(t.Attr, "before")
 				spacing.After = getAttributeValue(t.Attr, "after")
@@ -2191,7 +2181,6 @@ func (d *Document) parseParagraphProperties(decoder *xml.Decoder, paragraph *Par
 					return err
 				}
 			case "jc":
-				// 对齐
 				val := getAttributeValue(t.Attr, "val")
 				if val != "" {
 					paragraph.Properties.Justification = &Justification{Val: val}
@@ -2200,7 +2189,6 @@ func (d *Document) parseParagraphProperties(decoder *xml.Decoder, paragraph *Par
 					return err
 				}
 			case "ind":
-				// 缩进
 				indentation := &Indentation{}
 				indentation.FirstLine = getAttributeValue(t.Attr, "firstLine")
 				indentation.Left = getAttributeValue(t.Attr, "left")
@@ -2210,14 +2198,12 @@ func (d *Document) parseParagraphProperties(decoder *xml.Decoder, paragraph *Par
 					return err
 				}
 			case "numPr":
-				// 编号属性
 				numPr, err := d.parseNumberingProperties(decoder)
 				if err != nil {
 					return err
 				}
 				paragraph.Properties.NumberingProperties = numPr
 			case "sectPr":
-				// 一些文档将节属性存储在段落属性中
 				sectPr, err := d.parseSectionProperties(decoder, t)
 				if err != nil {
 					return err
@@ -2236,7 +2222,7 @@ func (d *Document) parseParagraphProperties(decoder *xml.Decoder, paragraph *Par
 	}
 }
 
-// parseNumberingProperties 解析编号属性
+// parseNumberingProperties
 func (d *Document) parseNumberingProperties(decoder *xml.Decoder) (*NumberingProperties, error) {
 	numPr := &NumberingProperties{}
 
@@ -2250,7 +2236,6 @@ func (d *Document) parseNumberingProperties(decoder *xml.Decoder) (*NumberingPro
 		case xml.StartElement:
 			switch t.Name.Local {
 			case "ilvl":
-				// 编号级别
 				val := getAttributeValue(t.Attr, "val")
 				if val != "" {
 					numPr.ILevel = &ILevel{Val: val}
@@ -2259,7 +2244,6 @@ func (d *Document) parseNumberingProperties(decoder *xml.Decoder) (*NumberingPro
 					return nil, err
 				}
 			case "numId":
-				// 编号ID
 				val := getAttributeValue(t.Attr, "val")
 				if val != "" {
 					numPr.NumID = &NumID{Val: val}
@@ -2280,7 +2264,7 @@ func (d *Document) parseNumberingProperties(decoder *xml.Decoder) (*NumberingPro
 	}
 }
 
-// parseRun 解析运行
+// parseRun
 func (d *Document) parseRun(decoder *xml.Decoder, startElement xml.StartElement) (*Run, error) {
 	run := &Run{
 		Text: Text{},
@@ -2296,23 +2280,19 @@ func (d *Document) parseRun(decoder *xml.Decoder, startElement xml.StartElement)
 		case xml.StartElement:
 			switch t.Name.Local {
 			case "rPr":
-				// 解析运行属性
 				if err := d.parseRunProperties(decoder, run); err != nil {
 					return nil, err
 				}
 			case "t":
-				// 解析文本
 				space := getAttributeValue(t.Attr, "space")
 				run.Text.Space = space
 
-				// 读取文本内容
 				content, err := d.readElementText(decoder, "t")
 				if err != nil {
 					return nil, err
 				}
 				run.Text.Content = content
 			case "drawing":
-				// 解析绘图元素（图片等）
 				drawing, err := d.parseDrawingElement(decoder, t)
 				if err != nil {
 					return nil, err
@@ -2331,7 +2311,7 @@ func (d *Document) parseRun(decoder *xml.Decoder, startElement xml.StartElement)
 	}
 }
 
-// parseRunProperties 解析运行属性
+// parseRunProperties
 func (d *Document) parseRunProperties(decoder *xml.Decoder, run *Run) error {
 	run.Properties = &RunProperties{}
 
@@ -2437,7 +2417,7 @@ func (d *Document) parseRunProperties(decoder *xml.Decoder, run *Run) error {
 	}
 }
 
-// parseTable 解析表格
+// parseTable
 func (d *Document) parseTable(decoder *xml.Decoder, startElement xml.StartElement) (*Table, error) {
 	table := &Table{
 		Rows: make([]TableRow, 0),
@@ -2453,17 +2433,14 @@ func (d *Document) parseTable(decoder *xml.Decoder, startElement xml.StartElemen
 		case xml.StartElement:
 			switch t.Name.Local {
 			case "tblPr":
-				// 解析表格属性
 				if err := d.parseTableProperties(decoder, table); err != nil {
 					return nil, err
 				}
 			case "tblGrid":
-				// 解析表格网格
 				if err := d.parseTableGrid(decoder, table); err != nil {
 					return nil, err
 				}
 			case "tr":
-				// 解析表格行
 				row, err := d.parseTableRow(decoder, t)
 				if err != nil {
 					return nil, err
@@ -2484,7 +2461,7 @@ func (d *Document) parseTable(decoder *xml.Decoder, startElement xml.StartElemen
 	}
 }
 
-// parseTableProperties 解析表格属性
+// parseTableProperties
 func (d *Document) parseTableProperties(decoder *xml.Decoder, table *Table) error {
 	table.Properties = &TableProperties{}
 
@@ -2515,7 +2492,6 @@ func (d *Document) parseTableProperties(decoder *xml.Decoder, table *Table) erro
 					return err
 				}
 			case "tblLook":
-				// 解析表格外观
 				tableLook := &TableLook{
 					Val:      getAttributeValue(t.Attr, "val"),
 					FirstRow: getAttributeValue(t.Attr, "firstRow"),
@@ -2530,7 +2506,6 @@ func (d *Document) parseTableProperties(decoder *xml.Decoder, table *Table) erro
 					return err
 				}
 			case "tblStyle":
-				// 解析表格样式
 				val := getAttributeValue(t.Attr, "val")
 				if val != "" {
 					table.Properties.TableStyle = &TableStyle{Val: val}
@@ -2539,14 +2514,12 @@ func (d *Document) parseTableProperties(decoder *xml.Decoder, table *Table) erro
 					return err
 				}
 			case "tblBorders":
-				// 解析表格边框
 				borders, err := d.parseTableBorders(decoder)
 				if err != nil {
 					return err
 				}
 				table.Properties.TableBorders = borders
 			case "shd":
-				// 解析表格底纹
 				shd := &TableShading{
 					Val:       getAttributeValue(t.Attr, "val"),
 					Color:     getAttributeValue(t.Attr, "color"),
@@ -2558,14 +2531,12 @@ func (d *Document) parseTableProperties(decoder *xml.Decoder, table *Table) erro
 					return err
 				}
 			case "tblCellMar":
-				// 解析表格单元格边距
 				margins, err := d.parseTableCellMargins(decoder)
 				if err != nil {
 					return err
 				}
 				table.Properties.TableCellMar = margins
 			case "tblLayout":
-				// 解析表格布局
 				layoutType := getAttributeValue(t.Attr, "type")
 				if layoutType != "" {
 					table.Properties.TableLayout = &TableLayoutType{Type: layoutType}
@@ -2574,7 +2545,6 @@ func (d *Document) parseTableProperties(decoder *xml.Decoder, table *Table) erro
 					return err
 				}
 			case "tblInd":
-				// 解析表格缩进
 				w := getAttributeValue(t.Attr, "w")
 				indType := getAttributeValue(t.Attr, "type")
 				if w != "" || indType != "" {
@@ -2584,7 +2554,6 @@ func (d *Document) parseTableProperties(decoder *xml.Decoder, table *Table) erro
 					return err
 				}
 			default:
-				// 跳过其他表格属性，可以根据需要扩展
 				if err := d.skipElement(decoder, t.Name.Local); err != nil {
 					return err
 				}
@@ -2597,7 +2566,7 @@ func (d *Document) parseTableProperties(decoder *xml.Decoder, table *Table) erro
 	}
 }
 
-// parseTableGrid 解析表格网格
+// parseTableGrid
 func (d *Document) parseTableGrid(decoder *xml.Decoder, table *Table) error {
 	table.Grid = &TableGrid{
 		Cols: make([]TableGridCol, 0),
@@ -2632,7 +2601,7 @@ func (d *Document) parseTableGrid(decoder *xml.Decoder, table *Table) error {
 	}
 }
 
-// parseTableRow 解析表格行
+// parseTableRow
 func (d *Document) parseTableRow(decoder *xml.Decoder, startElement xml.StartElement) (*TableRow, error) {
 	row := &TableRow{
 		Cells: make([]TableCell, 0),
@@ -2648,14 +2617,12 @@ func (d *Document) parseTableRow(decoder *xml.Decoder, startElement xml.StartEle
 		case xml.StartElement:
 			switch t.Name.Local {
 			case "trPr":
-				// 解析行属性
 				props, err := d.parseTableRowProperties(decoder)
 				if err != nil {
 					return nil, err
 				}
 				row.Properties = props
 			case "tc":
-				// 解析表格单元格
 				cell, err := d.parseTableCell(decoder, t)
 				if err != nil {
 					return nil, err

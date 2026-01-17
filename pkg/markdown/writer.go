@@ -14,7 +14,7 @@ type ExportOptions struct {
 	// Basic configuration
 	UseGFMTables       bool
 	PreserveFootnotes  bool
-	PreserveLineBreaks bool
+	PreserveLineBreaks bool // TODO: support preserve line breaks
 	WrapLongLines      bool
 	MaxLineLength      int
 
@@ -26,7 +26,7 @@ type ExportOptions struct {
 
 	// Link handling
 	PreserveBookmarks bool
-	ConvertHyperlinks bool
+	ConvertHyperlinks bool // TODO: support convert hyperlinks
 
 	// Code block handling
 	PreserveCodeStyle bool
