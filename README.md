@@ -347,7 +347,6 @@ go-word/
 ├── pkg/                    # Core library code
 │   ├── document/          # Document operation features
 │   └── style/             # Style management system
-├── examples/              # Usage examples
 ├── test/                  # Integration tests
 ```
 

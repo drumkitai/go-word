@@ -54,18 +54,6 @@ go vet ./...
 golangci-lint run
 ```
 
-### Running Examples
-```bash
-# Run basic example
-go run ./examples/basic/
-
-# Run any specific example
-go run ./examples/style_demo/
-go run ./examples/table/
-go run ./examples/template_inheritance_demo/
-go run ./examples/markdown_conversion/
-```
-
 ## Architecture Overview
 
 ### Core Packages
