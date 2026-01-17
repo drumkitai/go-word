@@ -1,0 +1,59 @@
+# 输出目录
+examples/output/
+*/output/
+output/
+
+# compiled example binary files
+complex_table_demo
+
+# IDE and editor files
+.cursor/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+debug.go
+
+# test document files
+*.docx
+*.doc
+!demo_document.docx
+
+.vscode/
+
+unzip_tool.exe
+
+# Go related
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
+go.work.sum
+
+# dependencies and vendor
+vendor/
+
+# temporary files
+*.tmp
+*.temp
+*.log
+
+# system files
+.DS_Store
+Thumbs.db
+
+# build output
+bin/
+dist/
+build/ 
+benchmark/results/golang
+benchmark/results/javascript
+benchmark/results/python
+benchmark/python/venv
+benchmark/javascript/node_modules
+benchmark/javascript/package-lock.json
