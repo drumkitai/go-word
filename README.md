@@ -365,6 +365,11 @@ Issues and Pull Requests are welcome! Please ensure before submitting code:
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
+## Attribution
+
+This project is derived from [wordZero](https://github.com/zerx-lab/wordZero) by ZeroHawkeye, 
+with modifications made initially by [Winston-Hsiao](https://github.com/Winston-Hsiao) and other future contributors.
+
 ---
 
 **More Resources**
